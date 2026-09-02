@@ -1,15 +1,33 @@
-# Matriz Gigante CSV (100k x 100k)
+# Lab 1: Generación y Manipulación de Matriz Gigante CSV (100k x 100k)
 
-Código en Java para generar y verificar una matriz de 10.000.000.000 de datos (~20 GB) usando I/O por streaming para no saturar la memoria RAM.
+**Estudiante:** Miguel Ángel Foronda  
+**Materia:** Estructuras de Datos  
 
-## Estructura del archivo (matriz_100k_x_100k.csv)
+---
 
-Para evitar problemas de rendimiento con saltos de línea tradicionales (\n), el archivo guarda la matriz como un flujo continuo:
-* Celdas: 0
-* Separador de columnas: ,
-* Separador de filas: 1
+## Objetivo del Proyecto
 
-Ejemplo del flujo: 0,0,0,1,0,0,0,1,...
+Demostrar la resolución óptima al problema de generación, almacenamiento y lectura de una matriz masiva de **10 mil millones de elementos** ($100.000 \times 100.000$ celdas, ~20 GB de datos), abordando los siguientes desafíos técnicos:
+
+* **Consumo excesivo de RAM:** Evitar errores de *OutOfMemoryError* procesando la información mediante patrones de I/O en flujo (*streaming*) continuo usando memoria nativa fuera del Heap de la JVM (`ByteBuffer.allocateDirect`).
+* **Escritura lenta a disco:** Maximizar el rendimiento de escritura volcando bloques binarios de 16 MB directamente al canal de almacenamiento con `FileChannel`.
+* **Optimización en la manipulación y almacenamiento:** Eliminar la sobrecarga de los saltos de línea tradicionales (`\n`) y usar el delimitador estructurado `'1'` para marcar el cierre de filas en un archivo continuo.
+
+---
+
+## Archivos del Repositorio
+
+* **`MatrizCSV.java`:** Código principal encargado de la generación y escritura eficiente de la matriz en disco usando *NIO FileChannel*.
+* **`README.md`:** Documentación general del repositorio y guía de verificación.
+
+---
+
+## Estructura y Formato de Datos (`matriz_100k_x_100k.csv`)
+
+El archivo se almacena como un flujo continuo UTF-8 para optimizar espacio y velocidad de lectura:
+* **Datos de celdas:** `'0'`
+* **Separador de columnas:** Coma (`,`)
+* **Delimitador de fin de fila:** `'1'`
 
 ---
 
